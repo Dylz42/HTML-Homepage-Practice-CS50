@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
+        <link href="styles.css" rel="stylesheet">
+
+        <title>My Webpage</title>
+    </head>
+    <body>
+        <!-- HEADER -->
+        <!-- Contains the title for the website and a list of links to the other pages -->
+        <!-- This header will be on all of the pages -->
+         <header>
+
+            <h1> Hello World!!!</h1>
+            <small class = "text-body-secondary"> A homepage for Dylan Nadan</small>
+            <br>
+            <p> Here is some music for your enjoyment, if it isnt playing by default, click the play button</p>
+            <audio src = "objects/cyber_world_lofi.mp3" autoplay controls loop></audio>
+
+                <div class = "dropdown">
+                <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Navigation Menu
+                </button>
+
+
+                <ul class="dropdown-menu">
+                          <li ><a href="index.html" accesskey="i" class = "select" >  HOME  </a></li>
+                          <li><a href="likes.html" accesskey="l"> LIKES </a></li>
+                          <li><a href="games.html" accesskey="g" > GAMES </a></li>
+                          <li><a href="pokemon.html" accesskey="p">POKEMON</a></li>
+                </ul>
+                </div>
+
+
+
+         </header>
+
+        <!-- BODY -->
+        <!-- This is the main body, here the main content, the favourite pokemon are listed -->
+         <main>
+        <h2>These are my Top 3 Favourite Pokemon</h2>
+        <div id="pokemon-div" class="pokemon-div"></div>
+         </main>
+
+         <script>
+            const pokemon = [
+                "palafin-hero",
+                "Sneasel",
+                "Typhlosion-hisui"
+            ];
+
+            async function getPokemon(name){
+                const url = `https://pokeapi.co/api/v2/pokemon/${name}`;
+                const response = await fetch(url);
+                if (!response.ok) {
+                    console.error(`Could not find $(name)`);
+                    return;
+                }
+
+                const pokemon = await response.json();
+
+                displayPokemon(pokemon);
+            }
+
+            function displayPokemon(pokemon){
+                const div = document.getElementById("pokemon-div");
+
+                const card = document.createElement("div");
+                card.classList.add("pokemon-card");
+
+                const abilities = pokemon.abilities.map(item => item.ability.name.replace("-", " ")).join(", ");
+
+                card.innerHTML = `
+                <h3 class="pokemon-name">${pokemon.name}</h3>
+
+                <img src="${pokemon.sprites.other["official-artwork"].front_default}" alt = "${pokemon.name}"></img>
+
+                <h4>Abilities</h4>
+
+                <p class="ability">${abilities}</p>
+                `;
+
+                div.appendChild(card);
+
+            }
+
+            pokemon.forEach(name => {
+                getPokemon(name);
+            });
+         </script>
+        <!-- FOOTER -->
+        <!-- Contains the footer for the website and a link that takes you up to the top-->
+        <!-- This header will be on all of the pages -->
+         <footer>
+            <h3> Thats all folks~</h3>
+            <a href="#top"> Back to the top</a>
+         </footer>
+    </body>
+</html>
